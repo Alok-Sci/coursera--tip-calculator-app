@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 class PersonCounter extends StatelessWidget {
   const PersonCounter({
     super.key,
-    required this.colorScheme,
     required int personCount,
     required this.onIncrement,
     required this.onDecrement,
   }) : _personCount = personCount;
 
-  final ColorScheme colorScheme;
   final int _personCount;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
+    final TextTheme textTheme = theme.textTheme;
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -28,9 +30,7 @@ class PersonCounter extends StatelessWidget {
         ),
         Text(
           _personCount.toString(),
-          style: TextStyle(
-            color: colorScheme.primary,
-          ),
+          style: textTheme.bodyLarge?.copyWith(color: colorScheme.primary),
         ),
         IconButton(
           icon: Icon(

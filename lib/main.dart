@@ -49,6 +49,23 @@ class _UTipState extends State<UTip> {
     });
   }
 
+  // * tip
+  double _tipAmount = 0.0;
+  double _tipPercentage = 0.0;
+  void _updateTipPercentage(double newValue) {
+    _tipPercentage = newValue;
+    // update tip amount
+    _updateTipAmount();
+
+    setState(() {});
+  }
+
+  void _updateTipAmount() {
+    setState(() {
+      _tipAmount = (_billAmount * _tipPercentage) / 100;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -152,18 +169,49 @@ class _UTipState extends State<UTip> {
                     children: [
                       Text(
                         "Split",
-                        style: TextStyle(
-                          color: colorScheme.primary,
-                        ),
+                        style: textTheme.titleMedium
+                            ?.copyWith(color: colorScheme.primary),
                       ),
                       PersonCounter(
-                        colorScheme: colorScheme,
                         personCount: _personCount,
                         onIncrement: _incrementPersonCount,
                         onDecrement: _decrementPersonCount,
                       )
                     ],
                   ),
+                  // * tip
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Tip",
+                        style: textTheme.titleMedium
+                            ?.copyWith(color: colorScheme.primary),
+                      ),
+                      Text(
+                        "₹${_tipAmount.toStringAsFixed(2)}",
+                        style: textTheme.bodyLarge?.copyWith(color: colorScheme.primary),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+
+                  // * tip percentage
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "${_tipPercentage.toStringAsFixed(2)}%",
+                      style: textTheme.labelLarge?.copyWith(color: colorScheme.primary),
+                    ),
+                  ),
+                  Slider(
+                    value: _tipPercentage,
+                    min: 0.0,
+                    max: 100.0,
+                    divisions: 20,
+                    label: _tipPercentage.toString(),
+                    onChanged: _updateTipPercentage,
+                  )
                 ],
               ),
             )
@@ -173,4 +221,3 @@ class _UTipState extends State<UTip> {
     );
   }
 }
-
