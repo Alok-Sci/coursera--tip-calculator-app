@@ -33,6 +33,21 @@ class _UTipState extends State<UTip> {
   double _billAmount = 0.0;
   double _totalAmountPerPerson = 0.0;
 
+  // * person count
+  int _personCount = 1;
+  void _incrementPersonCount() {
+    setState(() {
+      _personCount++;
+    });
+  }
+
+  void _decrementPersonCount() {
+    if (_personCount <= 1) return;
+    setState(() {
+      _personCount--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -144,25 +159,33 @@ class _UTipState extends State<UTip> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.remove_rounded,color: colorScheme.primary,),
-                            onPressed: (){},
+                            icon: Icon(
+                              Icons.remove_rounded,
+                              color: colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              _decrementPersonCount();
+                            },
                           ),
                           Text(
-                            "3",
+                            _personCount.toString(),
                             style: TextStyle(
-                              color:
-                                  colorScheme.primary,
+                              color: colorScheme.primary,
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.add_rounded, color: colorScheme.primary,),
-                            onPressed: (){},
+                            icon: Icon(
+                              Icons.add_rounded,
+                              color: colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              _incrementPersonCount();
+                            },
                           ),
                         ],
                       ),
                     ],
                   ),
-
                 ],
               ),
             )
