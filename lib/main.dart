@@ -1,6 +1,8 @@
 import 'package:coursera__tip_calculator_app/widgets/bill_amount_field.dart';
 import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
+import 'package:coursera__tip_calculator_app/widgets/tip_row.dart';
 import 'package:coursera__tip_calculator_app/widgets/tip_slider.dart';
+import 'package:coursera__tip_calculator_app/widgets/total_per_person.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -112,32 +114,8 @@ class _UTipState extends State<UTip> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // * total tip per person
-            Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: colorScheme.primary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Total Per Person",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: colorScheme.onPrimary),
-                  ),
-                  Text(
-                    "₹${_totalAmountPerPerson.toStringAsFixed(2)}",
-                    style: textTheme.titleLarge?.copyWith(
-                      color: colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+            TotalPerPerson(
+              totalAmountPerPerson: _totalAmountPerPerson,
             ),
 
             // * bill amount container
@@ -179,22 +157,9 @@ class _UTipState extends State<UTip> {
                       )
                     ],
                   ),
+                  
                   // * tip
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Tip",
-                        style: textTheme.titleMedium
-                            ?.copyWith(color: colorScheme.primary),
-                      ),
-                      Text(
-                        "₹${_tipAmount.toStringAsFixed(2)}",
-                        style: textTheme.bodyLarge
-                            ?.copyWith(color: colorScheme.primary),
-                      ),
-                    ],
-                  ),
+                  TipRow(tipAmount: _tipAmount),
                   SizedBox(height: 20),
 
                   // * tip percentage
