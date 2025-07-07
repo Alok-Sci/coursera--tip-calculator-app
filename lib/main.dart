@@ -1,3 +1,4 @@
+import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -155,35 +156,12 @@ class _UTipState extends State<UTip> {
                           color: colorScheme.primary,
                         ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.remove_rounded,
-                              color: colorScheme.primary,
-                            ),
-                            onPressed: () {
-                              _decrementPersonCount();
-                            },
-                          ),
-                          Text(
-                            _personCount.toString(),
-                            style: TextStyle(
-                              color: colorScheme.primary,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.add_rounded,
-                              color: colorScheme.primary,
-                            ),
-                            onPressed: () {
-                              _incrementPersonCount();
-                            },
-                          ),
-                        ],
-                      ),
+                      PersonCounter(
+                        colorScheme: colorScheme,
+                        personCount: _personCount,
+                        onIncrement: _incrementPersonCount,
+                        onDecrement: _decrementPersonCount,
+                      )
                     ],
                   ),
                 ],
@@ -195,3 +173,4 @@ class _UTipState extends State<UTip> {
     );
   }
 }
+
