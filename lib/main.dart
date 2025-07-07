@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "UTip: A tip calculator app",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
       home: UTip(),
@@ -35,11 +35,15 @@ class _UTipState extends State<UTip> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'UTip',
-          style: Theme.of(context).textTheme.titleLarge,
+          style: textTheme.titleLarge?.copyWith(color: colorScheme.primary),
         ),
         actions: [
           // * theme change switch button
@@ -58,7 +62,7 @@ class _UTipState extends State<UTip> {
             Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: colorScheme.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -70,14 +74,14 @@ class _UTipState extends State<UTip> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        ?.copyWith(color: Colors.white),
+                        ?.copyWith(color: colorScheme.onPrimary),
                   ),
                   Text(
                     "₹${_totalAmountPerPerson.toStringAsFixed(2)}",
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: textTheme.titleLarge?.copyWith(
+                      color: colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
