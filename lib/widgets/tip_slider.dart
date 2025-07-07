@@ -31,7 +31,7 @@ class TipSlider extends StatelessWidget {
           min: 0.0,
           max: 100.0,
           divisions: 20,
-          label: _tipPercentage.toString(),
+          label: _tipPercentage.toStringAsFixed(2),
           onChanged: onChanged,
         )
       ],

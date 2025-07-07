@@ -33,8 +33,18 @@ class UTip extends StatefulWidget {
 
 class _UTipState extends State<UTip> {
   // * price calculation
-  double _billAmount = 0.0;
+  final _billAmountController = TextEditingController();
+  double get _billAmount => double.parse(
+        _billAmountController.text.isNotEmpty
+            ? _billAmountController.text
+            : "0.0",
+      );
   double _totalAmountPerPerson = 0.0;
+  void _updateTotatAmountPerPerson() {
+    setState(() {
+      _totalAmountPerPerson = (_billAmount + _tipAmount) / _personCount;
+    });
+  }
 
   // * person count
   int _personCount = 1;
@@ -42,6 +52,9 @@ class _UTipState extends State<UTip> {
     setState(() {
       _personCount++;
     });
+
+    _updateTipAmount();
+    _updateTotatAmountPerPerson();
   }
 
   void _decrementPersonCount() {
@@ -49,17 +62,22 @@ class _UTipState extends State<UTip> {
     setState(() {
       _personCount--;
     });
+
+    _updateTipAmount();
+    _updateTotatAmountPerPerson();
   }
 
   // * tip
   double _tipAmount = 0.0;
   double _tipPercentage = 0.0;
   void _updateTipPercentage(double newValue) {
-    _tipPercentage = newValue;
+    setState(() {
+      _tipPercentage = newValue;
+    });
+
     // update tip amount
     _updateTipAmount();
-
-    setState(() {});
+    _updateTotatAmountPerPerson();
   }
 
   void _updateTipAmount() {
@@ -136,9 +154,11 @@ class _UTipState extends State<UTip> {
                 children: [
                   // * bill amount textfield
                   BillAmountField(
-                    billAmount: "100",
+                    controller: _billAmountController,
                     onChanged: (value) {
                       debugPrint('Textfield value: $value');
+                      _updateTipAmount();
+                      _updateTotatAmountPerPerson();
                     },
                   ),
                   SizedBox(height: 30),

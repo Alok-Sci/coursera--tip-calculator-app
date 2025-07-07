@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 
 class BillAmountField extends StatelessWidget {
   const BillAmountField({
     super.key,
-    required this.billAmount,
+    required this.controller,
     required this.onChanged,
   });
 
-  final String billAmount;
+  final TextEditingController controller;
   final ValueChanged<String> onChanged;
 
   @override
@@ -18,6 +17,7 @@ class BillAmountField extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return TextField(
+      controller: controller,
       keyboardType: TextInputType.number,
       style: textTheme.bodyMedium?.copyWith(color: colorScheme.primary),
       decoration: InputDecoration(
