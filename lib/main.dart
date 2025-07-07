@@ -86,6 +86,51 @@ class _UTipState extends State<UTip> {
                 ],
               ),
             ),
+
+            // * bill amount container
+            SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: colorScheme.primary,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  // * bill amount textfield
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    style: textTheme.bodyMedium
+                        ?.copyWith(color: colorScheme.primary),
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.currency_rupee_rounded,
+                        color: colorScheme.primary,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: colorScheme.primaryFixedDim,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                      label: Text("Bill Amount"),
+                      hintText: "eg. 10.8",
+                      hintStyle: textTheme.bodyMedium
+                          ?.copyWith(color: colorScheme.primaryFixedDim),
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Textfield value: $value');
+                    },
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
