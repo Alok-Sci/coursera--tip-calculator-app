@@ -128,6 +128,41 @@ class _UTipState extends State<UTip> {
                       debugPrint('Textfield value: $value');
                     },
                   ),
+                  SizedBox(height: 30),
+
+                  // * split
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Split",
+                        style: TextStyle(
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.remove_rounded,color: colorScheme.primary,),
+                            onPressed: (){},
+                          ),
+                          Text(
+                            "3",
+                            style: TextStyle(
+                              color:
+                                  colorScheme.primary,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.add_rounded, color: colorScheme.primary,),
+                            onPressed: (){},
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
                 ],
               ),
             )
