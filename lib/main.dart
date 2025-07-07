@@ -1,3 +1,4 @@
+import 'package:coursera__tip_calculator_app/widgets/bill_amount_field.dart';
 import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
 import 'package:coursera__tip_calculator_app/widgets/tip_slider.dart';
 import 'package:flutter/material.dart';
@@ -134,30 +135,8 @@ class _UTipState extends State<UTip> {
               child: Column(
                 children: [
                   // * bill amount textfield
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    style: textTheme.bodyMedium
-                        ?.copyWith(color: colorScheme.primary),
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.currency_rupee_rounded,
-                        color: colorScheme.primary,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: colorScheme.primaryFixedDim,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                      label: Text("Bill Amount"),
-                      hintText: "eg. 10.8",
-                      hintStyle: textTheme.bodyMedium
-                          ?.copyWith(color: colorScheme.primaryFixedDim),
-                    ),
+                  BillAmountField(
+                    billAmount: "100",
                     onChanged: (value) {
                       debugPrint('Textfield value: $value');
                     },
