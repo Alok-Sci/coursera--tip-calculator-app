@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-void main(){
-
+void main() {
   runApp(MyApp());
 }
 
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "UTip: A tip calculator app",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: UTip(),
@@ -31,18 +29,57 @@ class UTip extends StatefulWidget {
 }
 
 class _UTipState extends State<UTip> {
+  // * price calculation
+  double _billAmount = 0.0;
+  double _totalAmountPerPerson = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('UTip'),
-      ),
-      body: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Hello There"),
+        actions: [
+          // * theme change switch button
+          Switch(
+            value: true,
+            onChanged: (value) {},
+          )
         ],
-      )
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // * total tip per person
+            Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple.shade500,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Total Per Person",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "₹${_totalAmountPerPerson.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
