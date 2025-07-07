@@ -1,4 +1,5 @@
 import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
+import 'package:coursera__tip_calculator_app/widgets/tip_slider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -190,28 +191,18 @@ class _UTipState extends State<UTip> {
                       ),
                       Text(
                         "₹${_tipAmount.toStringAsFixed(2)}",
-                        style: textTheme.bodyLarge?.copyWith(color: colorScheme.primary),
+                        style: textTheme.bodyLarge
+                            ?.copyWith(color: colorScheme.primary),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
 
                   // * tip percentage
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "${_tipPercentage.toStringAsFixed(2)}%",
-                      style: textTheme.labelLarge?.copyWith(color: colorScheme.primary),
-                    ),
-                  ),
-                  Slider(
-                    value: _tipPercentage,
-                    min: 0.0,
-                    max: 100.0,
-                    divisions: 20,
-                    label: _tipPercentage.toString(),
+                  TipSlider(
+                    tipPercentage: _tipPercentage,
                     onChanged: _updateTipPercentage,
-                  )
+                  ),
                 ],
               ),
             )
