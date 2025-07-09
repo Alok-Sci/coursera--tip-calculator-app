@@ -1,3 +1,4 @@
+import 'package:coursera__tip_calculator_app/providers/theme_provider.dart';
 import 'package:coursera__tip_calculator_app/providers/tip_calculator_provider.dart';
 import 'package:coursera__tip_calculator_app/widgets/bill_amount_field.dart';
 import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
@@ -23,8 +24,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: ChangeNotifierProvider(
-        create: (context) => TipCalculatorProvider(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => TipCalculatorProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ThemeProvider(),
+            child: UTip(),
+          )
+        ],
         child: UTip(),
       ),
     );
@@ -46,6 +55,7 @@ class _UTipState extends State<UTip> {
     final colorScheme = theme.colorScheme;
 
     final provider = Provider.of<TipCalculatorProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,9 +65,14 @@ class _UTipState extends State<UTip> {
         ),
         actions: [
           // * theme change switch button
-          Switch(
-            value: true,
-            onChanged: (value) {},
+          Consumer<ThemeProvider>(
+            builder:
+                (BuildContext context, ThemeProvider value, Widget? child) {
+              return Switch(
+                value: themeProvider.isDarkMode,
+                onChanged: (value) => themeProvider.toggleTheme(),
+              );
+            },
           )
         ],
       ),
