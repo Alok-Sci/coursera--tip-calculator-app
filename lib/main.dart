@@ -9,7 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TipCalculatorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+          child: UTip(),
+        )
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,25 +30,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "UTip: A tip calculator app",
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-        useMaterial3: true,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => TipCalculatorProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-            child: UTip(),
-          )
-        ],
-        child: UTip(),
-      ),
+      theme: themeProvider.currentTheme,
+      home: UTip(),
     );
   }
 }
@@ -70,6 +71,19 @@ class _UTipState extends State<UTip> {
                 (BuildContext context, ThemeProvider value, Widget? child) {
               return Switch(
                 value: themeProvider.isDarkMode,
+                activeColor: colorScheme.primary,
+                inactiveThumbColor: colorScheme.primary,
+                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                  return colorScheme.primary;
+                }),
+                inactiveTrackColor: colorScheme.primaryFixedDim,
+                thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
+                    (Set<WidgetState> states) {
+                  return themeProvider.isDarkMode
+                      ? Icon(Icons.brightness_2_rounded)
+                      : Icon(Icons.wb_sunny_rounded);
+                }),
                 onChanged: (value) => themeProvider.toggleTheme(),
               );
             },
