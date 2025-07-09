@@ -1,9 +1,11 @@
+import 'package:coursera__tip_calculator_app/providers/tip_calculator_provider.dart';
 import 'package:coursera__tip_calculator_app/widgets/bill_amount_field.dart';
 import 'package:coursera__tip_calculator_app/widgets/person_counter.dart';
 import 'package:coursera__tip_calculator_app/widgets/tip_row.dart';
 import 'package:coursera__tip_calculator_app/widgets/tip_slider.dart';
 import 'package:coursera__tip_calculator_app/widgets/total_per_person.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: UTip(),
+      home: ChangeNotifierProvider(
+        create: (context) => TipCalculatorProvider(),
+        child: UTip(),
+      ),
     );
   }
 }
@@ -34,65 +39,13 @@ class UTip extends StatefulWidget {
 }
 
 class _UTipState extends State<UTip> {
-  // * price calculation
-  final _billAmountController = TextEditingController();
-  double get _billAmount => double.parse(
-        _billAmountController.text.isNotEmpty
-            ? _billAmountController.text
-            : "0.0",
-      );
-  double _totalAmountPerPerson = 0.0;
-  void _updateTotatAmountPerPerson() {
-    setState(() {
-      _totalAmountPerPerson = (_billAmount + _tipAmount) / _personCount;
-    });
-  }
-
-  // * person count
-  int _personCount = 1;
-  void _incrementPersonCount() {
-    setState(() {
-      _personCount++;
-    });
-
-    _updateTipAmount();
-    _updateTotatAmountPerPerson();
-  }
-
-  void _decrementPersonCount() {
-    if (_personCount <= 1) return;
-    setState(() {
-      _personCount--;
-    });
-
-    _updateTipAmount();
-    _updateTotatAmountPerPerson();
-  }
-
-  // * tip
-  double _tipAmount = 0.0;
-  double _tipPercentage = 0.0;
-  void _updateTipPercentage(double newValue) {
-    setState(() {
-      _tipPercentage = newValue;
-    });
-
-    // update tip amount
-    _updateTipAmount();
-    _updateTotatAmountPerPerson();
-  }
-
-  void _updateTipAmount() {
-    setState(() {
-      _tipAmount = (_billAmount * _tipPercentage) / 100;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
+
+    final provider = Provider.of<TipCalculatorProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -115,7 +68,7 @@ class _UTipState extends State<UTip> {
           children: [
             // * total tip per person
             TotalPerPerson(
-              totalAmountPerPerson: _totalAmountPerPerson,
+              totalAmountPerPerson: provider.totalAmountPerPerson,
             ),
 
             // * bill amount container
@@ -132,11 +85,11 @@ class _UTipState extends State<UTip> {
                 children: [
                   // * bill amount textfield
                   BillAmountField(
-                    controller: _billAmountController,
+                    controller: provider.billAmountController,
                     onChanged: (value) {
                       debugPrint('Textfield value: $value');
-                      _updateTipAmount();
-                      _updateTotatAmountPerPerson();
+                      provider.updateTipAmount();
+                      provider.updateTotatAmountPerPerson();
                     },
                   ),
                   SizedBox(height: 30),
@@ -151,21 +104,18 @@ class _UTipState extends State<UTip> {
                             ?.copyWith(color: colorScheme.primary),
                       ),
                       PersonCounter(
-                        personCount: _personCount,
-                        onIncrement: _incrementPersonCount,
-                        onDecrement: _decrementPersonCount,
+                        personCount: provider.personCount,
+                        onIncrement: provider.incrementPersonCount,
+                        onDecrement: provider.decrementPersonCount,
                       )
                     ],
                   ),
-                  
-                  // * tip
-                  TipRow(tipAmount: _tipAmount),
-                  SizedBox(height: 20),
 
-                  // * tip percentage
-                  TipSlider(
-                    tipPercentage: _tipPercentage,
-                    onChanged: _updateTipPercentage,
+                  // * tip
+                  TipRow(
+                    tipAmount: provider.tipAmount,
+                    tipPercentage: provider.tipPercentage,
+                    onTipPercentageUpdate: provider.updateTipPercentage,
                   ),
                 ],
               ),
